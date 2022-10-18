@@ -22,8 +22,8 @@ export default {
     const date = claimedSlots.find((s) => s.date.getDate() === choice)?.date || null;
     const dateString = date?.toDateString();
     const isUserOnDate =
-      claimedSlots.find((s) => s.date.getDate() === choice)?.username ===
-      interaction.user.username;
+      claimedSlots.find((s) => s.date.getDate() === choice)?.userId ===
+      interaction.user.id;
 
     const reply = {
       content: `Successfully removed your name from ${dateString}!`,

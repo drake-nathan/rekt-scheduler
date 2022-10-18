@@ -4,5 +4,5 @@ export interface Slot {
   _id?: ObjectId;
   date: Date;
   username?: string;
-  userId?: number;
+  userId?: string;
 }

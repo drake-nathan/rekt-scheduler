@@ -20,7 +20,7 @@ export const getEmbed = async () => {
   let message: string = '';
 
   slots.forEach((slot) => {
-    message += `${slot.date.toDateString()}: ${slot.username || ''}\n`;
+    message += `${slot.date.toDateString().slice(0, -5)}: ${slot.username || ''}\n`;
   });
 
   const embed = new EmbedBuilder()

@@ -4,5 +4,5 @@ import { Slot } from './types';
 export const slotSchema = new Schema<Slot>({
   date: { type: Date, required: true },
   username: { type: String },
-  userId: { type: Number },
+  userId: { type: String },
 });
