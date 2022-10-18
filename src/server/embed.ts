@@ -1,4 +1,4 @@
-import { EmbedBuilder } from 'discord.js';
+import { Client, EmbedBuilder, TextChannel } from 'discord.js';
 import { connectionFactory } from '../db/connectionFactory';
 import { get14Slots } from '../db/queries';
 import { Slot } from '../db/types';
@@ -34,4 +34,22 @@ export const getEmbed = async () => {
     .setColor('#e3e360');
 
   return embed;
+};
+
+export const updateEmbed = async (client: Client) => {
+  const channelId = process.env.CHANNEL_ID;
+  const channel = (await client.channels.fetch(channelId)) as TextChannel;
+
+  const embed = await getEmbed();
+
+  const messages = await channel.messages.fetch();
+  const lastMsg = messages.filter((m) => m.author.id === client.user?.id).last();
+
+  if (lastMsg) {
+    await lastMsg.edit({ embeds: [embed] });
+  } else {
+    await channel.send({ embeds: [embed] });
+  }
+
+  console.info(`Updated embed at ${new Date()}`);
 };

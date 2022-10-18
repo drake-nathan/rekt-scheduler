@@ -1,6 +1,9 @@
-import { Client, GatewayIntentBits, TextChannel } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
-import { getEmbed } from './server/embed';
+import commands from './server/commands';
+import { interactionCreate, ready } from './server/listeners';
+import { deployCommands } from './server/deployCommands';
+import { updateEmbed } from './server/embed';
 
 dotenv.config();
 const token = process.env.TOKEN;
@@ -9,35 +12,26 @@ if (!token) {
   throw new Error('No discord token found!');
 }
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client: Client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-const updateEmbed = async () => {
-  const channelId = process.env.CHANNEL_ID;
-  const channel = (await client.channels.fetch(channelId)) as TextChannel;
+client.commands = new Collection();
 
-  const embed = await getEmbed();
-
-  const messages = await channel.messages.fetch();
-  const lastMsg = messages.filter((m) => m.author.id === client.user?.id).first();
-
-  if (lastMsg) {
-    await lastMsg.edit({ embeds: [embed] });
+commands.forEach((command) => {
+  if ('data' in command && 'execute' in command) {
+    client.commands.set(command.data.name, command);
   } else {
-    await channel.send({ embeds: [embed] });
-  }
-
-  console.info(`Updated embed at ${new Date()}`);
-};
-
-client.once('ready', async () => {
-  console.info('Bot online!');
-
-  try {
-    await updateEmbed();
-  } catch (error) {
-    console.error(error);
+    console.error(
+      `[WARNING] ${
+        command.data.name || 'A command'
+      } is missing a required "data" or "execute" property.`,
+    );
   }
 });
+
+deployCommands();
+
+ready(client, updateEmbed);
+interactionCreate(client);
 
 client.login(token);
 

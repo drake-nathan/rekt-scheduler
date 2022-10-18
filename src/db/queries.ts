@@ -44,7 +44,19 @@ export const get14Slots = async (conn: Connection) => {
   return slots;
 };
 
-export const updateUsername = (conn: Connection, date: Date, username: string) => {
+export const getUnclaimedSlots = (conn: Connection) => {
+  const SlotSchema = conn.model<Slot>('Slot');
+
+  return SlotSchema.find({ username: null }).exec();
+};
+
+export const getClaimedSlots = (conn: Connection) => {
+  const SlotSchema = conn.model<Slot>('Slot');
+
+  return SlotSchema.find({ username: { $ne: null } }).exec();
+};
+
+export const updateUsername = (conn: Connection, date: Date, username?: string) => {
   const SlotSchema = conn.model<Slot>('Slot');
 
   const [year, month, day] = [date.getFullYear(), date.getMonth(), date.getDate()];
@@ -52,7 +64,7 @@ export const updateUsername = (conn: Connection, date: Date, username: string) =
 
   const query = SlotSchema.findOneAndUpdate(
     { date: searchDate },
-    { username },
+    { username: username || null },
     { new: true },
   ).exec();
 
