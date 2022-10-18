@@ -1,4 +1,5 @@
 /* eslint-disable no-await-in-loop */
+import { User } from 'discord.js';
 import { Connection } from 'mongoose';
 import { Slot } from './types';
 
@@ -56,7 +57,7 @@ export const getClaimedSlots = (conn: Connection) => {
   return SlotSchema.find({ username: { $ne: null } }).exec();
 };
 
-export const updateUsername = (conn: Connection, date: Date, username?: string) => {
+export const updateUsername = (conn: Connection, date: Date, user?: User) => {
   const SlotSchema = conn.model<Slot>('Slot');
 
   const [year, month, day] = [date.getFullYear(), date.getMonth(), date.getDate()];
@@ -64,7 +65,7 @@ export const updateUsername = (conn: Connection, date: Date, username?: string) 
 
   const query = SlotSchema.findOneAndUpdate(
     { date: searchDate },
-    { username: username || null },
+    { username: user?.username || null, userId: user?.id || null },
     { new: true },
   ).exec();
 

@@ -39,7 +39,7 @@ export default {
 
     await interaction.reply(reply);
     if (success) {
-      await updateUsername(conn, date, interaction.user.username);
+      await updateUsername(conn, date, interaction.user);
       await updateEmbed(interaction.client);
     }
     await conn.close();
