@@ -29,7 +29,7 @@ export default {
     const roles = interaction.member?.roles as GuildMemberRoleManager;
     // mods or myself or patron can remove anyone
     const isMod =
-      roles.cache.some((r) => r.name === 'Modz' || r.name === 'Original Degenz') ||
+      roles.cache.has('857079472264445953' || '854860807937851452') ||
       interaction.user.id === '577605290241949717' ||
       interaction.user.id === '776925721388908544';
 
