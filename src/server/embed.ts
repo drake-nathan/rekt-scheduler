@@ -49,6 +49,8 @@ export const updateEmbed = async (client: Client) => {
   const embed = await getEmbed();
 
   const messages = await channel.messages.fetch();
+  console.info('Messages fetched:', messages.size);
+  console.info(messages[0] || 'No messages found');
   const lastMsg = messages.filter((m) => m.author.id === client.user?.id).last();
 
   if (lastMsg) {
