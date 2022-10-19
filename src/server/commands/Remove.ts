@@ -13,25 +13,28 @@ export default {
     .setName('remove')
     .setDescription('Select a date to remove your name from.')
     .addNumberOption((option: SlashCommandNumberOption) =>
-      option.setName('day').setDescription('The day number to remove.'),
+      option.setName('day').setDescription('The day number to remove.').setRequired(true),
     ),
   async execute(interaction: CommandInteraction) {
     const choice = interaction.options.data[0].value as number;
     const conn = await connectionFactory();
     const claimedSlots = await getClaimedSlots(conn);
     const claimedNums = claimedSlots.map((slot) => slot.date.getDate());
-    const date = claimedSlots.find((s) => s.date.getDate() === choice)?.date || null;
+    const slot = claimedSlots.find((s) => s.date.getDate() === choice);
+    const date = slot?.date || null;
     const dateString = date?.toDateString();
     const isUserOnDate =
       claimedSlots.find((s) => s.date.getDate() === choice)?.userId ===
       interaction.user.id;
     const roles = interaction.member?.roles as GuildMemberRoleManager;
-    const isMod = roles.cache.some(
-      (r) => r.name === 'Modz' || r.name === 'Original Degenz',
-    );
+    // mods or myself or patron can remove anyone
+    const isMod =
+      roles.cache.some((r) => r.name === 'Modz' || r.name === 'Original Degenz') ||
+      interaction.user.id === '577605290241949717' ||
+      interaction.user.id === '776925721388908544';
 
     const reply = {
-      content: `Successfully removed your name from ${dateString}!`,
+      content: `Successfully removed ${slot?.username} from ${dateString}!`,
       ephemeral: true,
     };
     let success = false;

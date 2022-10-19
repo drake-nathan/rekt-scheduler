@@ -26,6 +26,7 @@ export const getEmbed = async () => {
   message += '\nInstructions:';
   message += "\nTo claim a slot: '/claim'.";
   message += "\nThen enter the date number: '17' for the 17th.";
+  message += '\nMods can specify a username to add after the day.';
   message += "\nUse '/remove' to remove yourself from a slot.";
 
   const embed = new EmbedBuilder()
