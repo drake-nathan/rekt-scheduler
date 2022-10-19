@@ -23,6 +23,10 @@ export const getEmbed = async () => {
     message += `${slot.date.toDateString().slice(0, -5)}: ${slot.username || ''}\n`;
   });
 
+  message +=
+    "\nTo claim a slot: '/claim', select 'day', then enter the date number: '17' for the 17th.";
+  message += "\nUse '/remove' to remove yourself from a slot.";
+
   const embed = new EmbedBuilder()
     .setTitle('Rekt Commentary Schedule')
     .setThumbnail(
