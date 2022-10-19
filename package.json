@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc",
     "prestart": "yarn build",
+    "postinstall": "yarn build",
     "start": "node dist/src/index.js",
     "deploy": "git push heroku main"
   },

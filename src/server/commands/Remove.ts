@@ -2,6 +2,7 @@ import {
   SlashCommandBuilder,
   CommandInteraction,
   SlashCommandNumberOption,
+  GuildMemberRoleManager,
 } from 'discord.js';
 import { connectionFactory } from '../../db/connectionFactory';
 import { getClaimedSlots, updateUsername } from '../../db/queries';
@@ -24,6 +25,10 @@ export default {
     const isUserOnDate =
       claimedSlots.find((s) => s.date.getDate() === choice)?.userId ===
       interaction.user.id;
+    const roles = interaction.member?.roles as GuildMemberRoleManager;
+    const isMod = roles.cache.some(
+      (r) => r.name === 'Modz' || r.name === 'Original Degenz',
+    );
 
     const reply = {
       content: `Successfully removed your name from ${dateString}!`,
@@ -38,7 +43,7 @@ export default {
     else if (choice < 1 || choice > 31) reply.content = "That ain't a day, bro.";
     else if (!claimedNums.includes(choice))
       reply.content = `${dateString || choice} has not been claimed.`;
-    else if (isUserOnDate) success = true;
+    else if (isUserOnDate || isMod) success = true;
 
     await interaction.reply(reply);
     if (success) {
