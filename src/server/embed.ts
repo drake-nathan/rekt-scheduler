@@ -20,7 +20,8 @@ export const getEmbed = async () => {
   let message: string = '';
 
   slots.forEach((slot) => {
-    message += `${slot.date.toDateString().slice(0, -5)}: ${slot.username || ''}\n`;
+    const userStr = slot.userId ? `<@${slot.userId}>` : '';
+    message += `${slot.date.toDateString().slice(0, -5)}: ${userStr}\n`;
   });
 
   message += '\nInstructions:';
@@ -49,10 +50,10 @@ export const updateEmbed = async (client: Client) => {
   const embed = await getEmbed();
 
   const messages = await channel.messages.fetch();
-  const lastMsg = false; // messages.filter((m) => m.author.id === client.user?.id).last();
+  const lastMsg = messages.filter((m) => m.author.id === client.user?.id).last();
 
   if (lastMsg) {
-    // await lastMsg.edit({ embeds: [embed] });
+    await lastMsg.edit({ embeds: [embed] });
   } else {
     await channel.send({ embeds: [embed] });
   }
