@@ -21,7 +21,7 @@ export const getEmbed = async () => {
 
   slots.forEach((slot) => {
     const userStr = slot.userId ? `<@${slot.userId}>` : '';
-    message += `**${slot.date.toDateString().slice(0, -5)}:** ${userStr}\n`;
+    message += `${slot.date.toDateString().slice(0, -5)}: ${userStr}\n`;
   });
 
   message += '\n**Instructions:**';
