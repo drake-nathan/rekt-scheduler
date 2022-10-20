@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 import { connectionFactory } from '../../db/connectionFactory';
 import { getUnclaimedSlots, updateUsername } from '../../db/queries';
-import { updateEmbed } from '../embed';
+import { updateEmbed } from '../utils/embed';
 
 export default {
   data: new SlashCommandBuilder()
@@ -58,5 +58,8 @@ export default {
       await updateEmbed(interaction.client);
     }
     await conn.close();
+
+    if (success) console.info(`Claimed ${dateString} by ${userToAdd.username}`);
+    else console.info(`${userToAdd.username} failed to claim ${userChoice}`);
   },
 };

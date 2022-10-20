@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 import { connectionFactory } from '../../db/connectionFactory';
 import { getClaimedSlots, updateUsername } from '../../db/queries';
-import { updateEmbed } from '../embed';
+import { updateEmbed } from '../utils/embed';
 
 export default {
   data: new SlashCommandBuilder()
@@ -54,5 +54,8 @@ export default {
       await updateEmbed(interaction.client);
     }
     await conn.close();
+
+    if (success) console.info(`Removed ${slot?.username} from ${dateString}`);
+    else console.info(`${slot?.username} failed to remove from ${choice}`);
   },
 };
