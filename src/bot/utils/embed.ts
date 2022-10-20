@@ -21,14 +21,14 @@ export const getEmbed = async () => {
 
   slots.forEach((slot) => {
     const userStr = slot.userId ? `<@${slot.userId}>` : '';
-    message += `${slot.date.toDateString().slice(0, -5)}: ${userStr}\n`;
+    message += `**${slot.date.toDateString().slice(0, -5)}:** ${userStr}\n`;
   });
 
   message += '\n**Instructions:**';
-  message += "\nTo claim a slot: '/claim-slot'.";
+  message += "\nTo claim a slot: **'/claim-slot'.**";
   message += "\nThen enter the date number: '17' for the 17th.";
   message += '\nMods can optionally specify a username to add.';
-  message += "\nUse '/clear-slot' to remove yourself from a slot.\n";
+  message += "\nUse **'/clear-slot'** to remove yourself from a slot.\n";
   message += '\n**Note: Please do not send messages in this channel.**';
 
   const embed = new EmbedBuilder()
