@@ -1,9 +1,9 @@
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
-import commands from './server/commands';
-import { interactionCreate, ready } from './server/listeners';
-import { deployCommands } from './server/deployCommands';
-import { updateEmbed } from './server/embed';
+import commands from './bot/commands';
+import { interactionCreate, ready } from './bot/listeners';
+import { deployCommands } from './bot/deployCommands';
+import { updateEmbed } from './bot/embed';
 
 dotenv.config();
 const token = process.env.TOKEN;
