@@ -10,10 +10,10 @@ import { updateEmbed } from '../embed';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('remove')
-    .setDescription('Select a date to remove your name from.')
+    .setName('clear-slot')
+    .setDescription('Select a date to clear.')
     .addNumberOption((option: SlashCommandNumberOption) =>
-      option.setName('day').setDescription('The day number to remove.').setRequired(true),
+      option.setName('day').setDescription('The date to clear.').setRequired(true),
     ),
   async execute(interaction: CommandInteraction) {
     const choice = interaction.options.data[0].value as number;
@@ -31,7 +31,7 @@ export default {
     const isMod =
       roles.cache.has('857079472264445953' || '854860807937851452') ||
       interaction.user.id === '577605290241949717' ||
-      interaction.user.id === '776925721388908544';
+      '776925721388908544';
 
     const reply = {
       content: `Successfully removed ${slot?.username} from ${dateString}!`,

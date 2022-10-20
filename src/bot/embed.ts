@@ -25,10 +25,10 @@ export const getEmbed = async () => {
   });
 
   message += '\nInstructions:';
-  message += "\nTo claim a slot: '/claim'.";
+  message += "\nTo claim a slot: '/claim-slot'.";
   message += "\nThen enter the date number: '17' for the 17th.";
-  message += '\nMods can specify a username to add after the day.';
-  message += "\nUse '/remove' to remove yourself from a slot.";
+  message += '\nMods can optionally specify a username to add.';
+  message += "\nUse '/clear-slot' to remove yourself from a slot.";
 
   const embed = new EmbedBuilder()
     .setTitle('Rekt Commentary Schedule')

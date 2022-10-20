@@ -10,7 +10,7 @@ import { updateEmbed } from '../embed';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('claim')
+    .setName('claim-slot')
     .setDescription('Select a date to claim.')
     .addNumberOption((option: SlashCommandNumberOption) =>
       option.setName('day').setDescription('The day to claim.').setRequired(true),
@@ -29,11 +29,11 @@ export default {
       unclaimedSlots.find((s) => s.date.getDate() === dateChoice)?.date || null;
     const dateString = date?.toDateString();
     const roles = interaction.member?.roles as GuildMemberRoleManager;
-    // mods or myself or patron can remove anyone
+    // mods or myself or patron can add anyone
     const isMod =
-      roles.cache.some((r) => r.name === 'Modz' || r.name === 'Original Degenz') ||
+      roles.cache.has('857079472264445953' || '854860807937851452') ||
       interaction.user.id === '577605290241949717' ||
-      interaction.user.id === '776925721388908544';
+      '776925721388908544';
 
     const userToAdd = isMod && userChoice ? userChoice : interaction.user;
 
