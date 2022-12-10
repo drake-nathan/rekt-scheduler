@@ -48,13 +48,31 @@ export const get14Slots = async (conn: Connection) => {
 export const getUnclaimedSlots = (conn: Connection) => {
   const SlotSchema = conn.model<Slot>('Slot');
 
-  return SlotSchema.find({ username: null }).exec();
+  const today = new Date();
+  const latestDate = new Date(today.setDate(today.getDate() + 14));
+
+  return SlotSchema.find({
+    username: null,
+    date: {
+      $gte: new Date(),
+      $lte: latestDate,
+    },
+  }).exec();
 };
 
 export const getClaimedSlots = (conn: Connection) => {
   const SlotSchema = conn.model<Slot>('Slot');
 
-  return SlotSchema.find({ username: { $ne: null } }).exec();
+  const today = new Date();
+  const latestDate = new Date(today.setDate(today.getDate() + 14));
+
+  return SlotSchema.find({
+    username: { $ne: null },
+    date: {
+      $gte: new Date(),
+      $lte: latestDate,
+    },
+  }).exec();
 };
 
 export const updateUsername = (conn: Connection, date: Date, user?: User) => {

@@ -1,6 +1,6 @@
 import { Client, EmbedBuilder, TextChannel } from 'discord.js';
 import { connectionFactory } from '../../db/connectionFactory';
-import { get14Slots } from '../../db/queries';
+import { get14Slots, getUnclaimedSlots } from '../../db/queries';
 import { Slot } from '../../db/types';
 
 export const getEmbed = async () => {
@@ -11,6 +11,10 @@ export const getEmbed = async () => {
   try {
     const conn = await connectionFactory();
     slots = await get14Slots(conn);
+
+    const availableSlots = await getUnclaimedSlots(conn);
+    console.info(availableSlots);
+
     await conn.close();
   } catch (error) {
     console.error(error);

@@ -22,6 +22,7 @@ commands.forEach((command) => {
   } else {
     console.error(
       `[WARNING] ${
+        // @ts-ignore
         command.data.name || 'A command'
       } is missing a required "data" or "execute" property.`,
     );
@@ -37,4 +38,4 @@ client.login(token);
 
 client.on('error', (e) => console.error(e));
 client.on('warn', (e) => console.warn(e));
-client.on('debug', (e) => console.info(e));
+// client.on('debug', (e) => console.info(e));
